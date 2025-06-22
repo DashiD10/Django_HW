@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Барбершоп - Главная{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="hero">
+        <h1>Добро пожаловать в наш Барбершоп!</h1>
+        <p>Лучшие мастера города готовы привести вас в порядок</p>
+        <button class="btn btn-primary" onclick="scrollToServices()">Наши услуги</button>
+    </section>
+
+    {% if masters %}
+    <section class="masters">
+        <h2>Наши мастера</h2>
+        <div class="masters-grid">
+            {% for master in masters %}
+            <div class="master-card">
+                <h3>{{ master.name }}</h3>
+                <p>Мастер №{{ master.id }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    {% if services %}
+    <section class="services" id="services">
+        <h2>Наши услуги</h2>
+        <div class="services-grid">
+            {% for service in services %}
+            <div class="service-card">
+                <h3>{{ service }}</h3>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <section class="contact">
+        <h2>Записаться на прием</h2>
+        <form class="booking-form" action="{% url 'thanks' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="client_name">Ваше имя:</label>
+                <input type="text" id="client_name" name="client_name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="service">Выберите услугу:</label>
+                <select id="service" name="service" required>
+                    <option value="">Выберите услугу</option>
+                    {% for service in services %}
+                    <option value="{{ service }}">{{ service }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="master">Выберите мастера:</label>
+                <select id="master" name="master" required>
+                    <option value="">Выберите мастера</option>
+                    {% for master in masters %}
+                    <option value="{{ master.id }}">{{ master.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="date">Дата записи:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Записаться</button>
+        </form>
+    </section>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'main.js' %}"></script>
+{% endblock %}

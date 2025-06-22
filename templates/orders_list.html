@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}Список заявок - Барбершоп{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="orders">
+        <h1>Список заявок</h1>
+        
+        {% if orders %}
+        <div class="orders-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Клиент</th>
+                        <th>Дата</th>
+                        <th>Статус</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr class="order-row status-{{ order.status|slugify }}">
+                        <td>{{ order.id }}</td>
+                        <td>{{ order.client_name }}</td>
+                        <td>{{ order.date }}</td>
+                        <td>
+                            <span class="status-badge status-{{ order.status|slugify }}">
+                                {{ order.status|capfirst }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{% url 'order_detail' order.id %}" class="btn btn-small">
+                                Подробнее
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="no-orders">
+            <p>Заявок пока нет.</p>
+            <a href="{% url 'landing' %}" class="btn btn-primary">Создать заявку</a>
+        </div>
+        {% endif %}
+        
+        <div class="orders-summary">
+            <h3>Статистика заявок</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">{{ orders|length }}</span>
+                    <span class="stat-label">Всего заявок</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

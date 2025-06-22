@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}Спасибо за заявку - Барбершоп{% endblock %}
+
+{% block content %}
+<div class="container">
+    <section class="thanks">
+        <div class="thanks-content">
+            <h1>Спасибо за вашу заявку!</h1>
+            <div class="success-icon">✓</div>
+            <p>Ваша заявка успешно принята и находится в обработке.</p>
+            <p>Наш администратор свяжется с вами в ближайшее время для подтверждения записи.</p>
+            
+            <div class="thanks-actions">
+                <a href="{% url 'landing' %}" class="btn btn-primary">Вернуться на главную</a>
+                <a href="{% url 'orders_list' %}" class="btn btn-secondary">Посмотреть все заявки</a>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
