@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Orders - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1>Orders List</h1>
+    
+    {% if orders %}
+        {% for order in orders %}
+            {% include 'includes/order_card.html' %}
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info">
+            No orders found.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

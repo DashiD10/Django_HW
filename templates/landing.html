@@ -1,83 +1,147 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Барбершоп - Главная{% endblock %}
+{% block title %}{{ page_title }} - {{ site_name }}{% endblock %}
 
 {% block content %}
-<div class="container">
-    <section class="hero">
-        <h1>Добро пожаловать в наш Барбершоп!</h1>
-        <p>Лучшие мастера города готовы привести вас в порядок</p>
-        <button class="btn btn-primary" onclick="scrollToServices()">Наши услуги</button>
-    </section>
-
-    {% if masters %}
-    <section class="masters">
-        <h2>Наши мастера</h2>
-        <div class="masters-grid">
-            {% for master in masters %}
-            <div class="master-card">
-                <h3>{{ master.name }}</h3>
-                <p>Мастер №{{ master.id }}</p>
+<div class="pt-5">
+    <!-- Главная секция -->
+    <section id="home" class="hero-section bg-primary text-white py-5">
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold">{{ site_name }}</h1>
+                    <p class="lead">Профессиональные услуги для настоящих мужчин. Стрижки, уход за бородой и стиль на высшем уровне.</p>
+                    <a href="#booking" class="btn btn-light btn-lg">
+                        <i class="bi bi-calendar-check"></i> Записаться
+                    </a>
+                </div>
+                <div class="col-lg-6">
+                    <img src="{% static 'images/barbershop-hero.jpg' %}" alt="Барбершоп" class="img-fluid rounded">
+                </div>
             </div>
-            {% endfor %}
         </div>
     </section>
-    {% endif %}
 
-    {% if services %}
-    <section class="services" id="services">
-        <h2>Наши услуги</h2>
-        <div class="services-grid">
-            {% for service in services %}
-            <div class="service-card">
-                <h3>{{ service }}</h3>
+    <!-- Секция "О нас" -->
+    <section id="about" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="mb-4">О нас</h2>
+                    <p class="lead">Мы создаем не просто стрижки, а настоящий мужской стиль. Наши мастера имеют многолетний опыт и используют только качественные инструменты и косметику.</p>
+                </div>
             </div>
-            {% endfor %}
         </div>
     </section>
-    {% endif %}
 
-    <section class="contact">
-        <h2>Записаться на прием</h2>
-        <form class="booking-form" action="{% url 'thanks' %}" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="client_name">Ваше имя:</label>
-                <input type="text" id="client_name" name="client_name" required>
+    <!-- Секция "Услуги" -->
+    <section id="services" class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2>Наши услуги</h2>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label for="service">Выберите услугу:</label>
-                <select id="service" name="service" required>
-                    <option value="">Выберите услугу</option>
-                    {% for service in services %}
-                    <option value="{{ service }}">{{ service }}</option>
-                    {% endfor %}
-                </select>
+            <div class="row">
+                {% for service in services %}
+                <div class="col-md-6 col-lg-3 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-body">
+                            <i class="bi bi-scissors display-4 text-primary mb-3"></i>
+                            <h5 class="card-title">{{ service.name }}</h5>
+                            <p class="card-text display-6 text-primary fw-bold">{{ service.price }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            
-            <div class="form-group">
-                <label for="master">Выберите мастера:</label>
-                <select id="master" name="master" required>
-                    <option value="">Выберите мастера</option>
-                    {% for master in masters %}
-                    <option value="{{ master.id }}">{{ master.name }}</option>
-                    {% endfor %}
-                </select>
+        </div>
+    </section>
+
+    <!-- Секция "Мастера" -->
+    <section id="masters" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center mb-5">
+                    <h2>Наши мастера</h2>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label for="date">Дата записи:</label>
-                <input type="date" id="date" name="date" required>
+            <div class="row">
+                {% for master in masters %}
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-person-circle display-4 text-primary mb-3"></i>
+                            <h5 class="card-title">{{ master.name }}</h5>
+                            <p class="card-text">Опыт работы: {{ master.experience }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
-            
-            <button type="submit" class="btn btn-primary">Записаться</button>
-        </form>
+        </div>
+    </section>
+
+    <!-- Секция "Запись" -->
+    <section id="booking" class="py-5 bg-primary text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="mb-4">Записаться на прием</h2>
+                    <p class="lead mb-4">Оставьте заявку, и мы свяжемся с вами для подтверждения записи</p>
+                    
+                    <form method="post" action="{% url 'thanks' %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <input type="text" class="form-control" name="client_name" placeholder="Ваше имя" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <input type="tel" class="form-control" name="phone" placeholder="Телефон" required>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <input type="date" class="form-control" name="date" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <input type="time" class="form-control" name="time" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <select class="form-select" name="service" required>
+                                <option value="">Выберите услугу</option>
+                                {% for service in services %}
+                                <option value="{{ service.name }}">{{ service.name }} - {{ service.price }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-light btn-lg">
+                            <i class="bi bi-send"></i> Отправить заявку
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 {% endblock %}
 
 {% block scripts %}
-<script src="{% static 'main.js' %}"></script>
+<script>
+// Плавная прокрутка для якорных ссылок
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    });
+});
+</script>
 {% endblock %}
