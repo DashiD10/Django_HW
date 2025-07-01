@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Order #{{ order.id }} - {{ block.super }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Order #{{ order.id }}</h1>
+            
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Client Information</h5>
+                    <p><strong>Name:</strong> {{ order.client_name }}</p>
+                    <p><strong>Phone:</strong> {{ order.phone }}</p>
+                    
+                    <h5 class="card-title mt-4">Appointment Details</h5>
+                    <p><strong>Date:</strong> {{ order.date }}</p>
+                    <p><strong>Time:</strong> {{ order.time }}</p>
+                    <p><strong>Master:</strong> {{ order.master }}</p>
+                    
+                    <h5 class="card-title mt-4">Services</h5>
+                    <ul>
+                        {% for service in order.services %}
+                            <li>{{ service }}</li>
+                        {% endfor %}
+                    </ul>
+                    
+                    {% if order.notes %}
+                    <h5 class="card-title mt-4">Notes</h5>
+                    <p>{{ order.notes }}</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Status</h5>
+                    {% if order.status == 'new' %}
+                        <span class="badge bg-warning fs-6">New</span>
+                    {% elif order.status == 'confirmed' %}
+                        <span class="badge bg-primary fs-6">Confirmed</span>
+                    {% elif order.status == 'completed' %}
+                        <span class="badge bg-success fs-6">Completed</span>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="mt-3">
+                <a href="{% url 'orders_list' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Back to Orders
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

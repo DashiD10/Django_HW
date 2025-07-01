@@ -1,0 +1,85 @@
+/* Основные стили для барбершопа */
+
+/* Отступ для фиксированного меню */
+body {
+    padding-top: 76px;
+}
+
+/* Стили для hero секции */
+.hero-section {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    min-height: 100vh;
+}
+
+/* Стили для карточек */
+.card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* Стили для статусов заявок */
+.badge {
+    font-size: 0.9em;
+}
+
+/* Стили для навигации */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Адаптивность для мобильных устройств */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 80vh;
+    }
+    
+    .display-4 {
+        font-size: 2rem;
+    }
+    
+    .lead {
+        font-size: 1rem;
+    }
+}
+
+/* Стили для формы записи */
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Анимация для кнопок */
+.btn {
+    transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Стили для футера */
+footer {
+    margin-top: auto;
+}
+
+/* Стили для breadcrumb */
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* Стили для печати */
+@media print {
+    .navbar, .btn, .breadcrumb {
+        display: none !important;
+    }
+    
+    body {
+        padding-top: 0;
+    }
+}
