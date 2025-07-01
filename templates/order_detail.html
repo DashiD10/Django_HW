@@ -1,98 +1,141 @@
 {% extends 'base.html' %}
 
-{% block title %}Заявка №{{ order.id }} - Барбершоп{% endblock %}
+{% block title %}{{ page_title }} - {{ site_name }}{% endblock %}
 
 {% block content %}
-<div class="container">
-    <section class="order-detail">
-        <div class="order-header">
-            <h1>Заявка №{{ order.id }}</h1>
-            <span class="status-badge status-{{ order.status|slugify }}">
-                {{ order.status|capfirst }}
-            </span>
-        </div>
-        
-        {% if order %}
-        <div class="order-info">
-            <div class="info-section">
-                <h3>Информация о клиенте</h3>
-                <div class="info-grid">
-                    <div class="info-item">
-                        <label>Имя клиента:</label>
-                        <span>{{ order.client_name }}</span>
-                    </div>
-                    <div class="info-item">
-                        <label>Дата записи:</label>
-                        <span>{{ order.date }}</span>
-                    </div>
-                </div>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <!-- Навигация -->
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'orders_list' %}">
+                            <i class="bi bi-list-ul"></i> Заявки
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">Заявка #{{ order.id }}</li>
+                </ol>
+            </nav>
+            
+            <!-- Заголовок с кнопкой возврата -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h1><i class="bi bi-file-text"></i> {{ page_title }}</h1>
+                <a href="{% url 'orders_list' %}" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Назад к списку
+                </a>
             </div>
             
-            <div class="info-section">
-                <h3>Мастер</h3>
-                <div class="master-info">
-                    {% for master in masters %}
-                        {% if master.id == order.master_id %}
-                        <div class="master-card">
-                            <h4>{{ master.name }}</h4>
-                            <p>Мастер №{{ master.id }}</p>
+            <!-- Детальная информация о заявке -->
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="bi bi-info-circle"></i> Информация о заявке
+                            </h5>
                         </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-            
-            <div class="info-section">
-                <h3>Услуги</h3>
-                <div class="services-list">
-                    {% for service in order.services %}
-                    <div class="service-item">
-                        <span class="service-icon">✂️</span>
-                        <span class="service-name">{{ service }}</span>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6><i class="bi bi-person"></i> Клиент</h6>
+                                    <p class="fs-5">{{ order.client_name }}</p>
+                                    
+                                    <h6><i class="bi bi-telephone"></i> Телефон</h6>
+                                    <p><a href="tel:{{ order.phone }}">{{ order.phone }}</a></p>
+                                    
+                                    <h6><i class="bi bi-calendar"></i> Дата и время</h6>
+                                    <p>{{ order.date }} в {{ order.time }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6><i class="bi bi-scissors"></i> Услуги</h6>
+                                    <div class="mb-3">
+                                        {% for service in order.services %}
+                                            <span class="badge bg-secondary me-1">{{ service }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    <h6><i class="bi bi-person-badge"></i> Мастер</h6>
+                                    <p>{{ order.master }}</p>
+                                    
+                                    <h6><i class="bi bi-flag"></i> Статус</h6>
+                                    {% if order.status == 'new' %}
+                                        <span class="badge bg-warning text-dark fs-6">{{ order.status_display }}</span>
+                                    {% elif order.status == 'confirmed' %}
+                                        <span class="badge bg-primary fs-6">{{ order.status_display }}</span>
+                                    {% elif order.status == 'completed' %}
+                                        <span class="badge bg-success fs-6">{{ order.status_display }}</span>
+                                    {% else %}
+                                        <span class="badge bg-secondary fs-6">{{ order.status_display }}</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            {% if order.notes %}
+                            <hr>
+                            <h6><i class="bi bi-chat-text"></i> Примечания</h6>
+                            <div class="alert alert-info">
+                                {{ order.notes }}
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
-                    {% endfor %}
+                </div>
+                
+                <!-- Боковая панель с действиями -->
+                <div class="col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="bi bi-gear"></i> Действия
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary" onclick="window.print()">
+                                    <i class="bi bi-printer"></i> Печать
+                                </button>
+                                <button class="btn btn-success" onclick="callClient()">
+                                    <i class="bi bi-telephone"></i> Позвонить клиенту
+                                </button>
+                                <button class="btn btn-warning" onclick="editOrder()">
+                                    <i class="bi bi-pencil"></i> Редактировать
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Информационная панель -->
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">
+                                <i class="bi bi-clock-history"></i> История
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <small class="text-muted">
+                                Заявка создана: {{ order.date }}<br>
+                                ID заявки: #{{ order.id }}
+                            </small>
+                        </div>
+                    </div>
                 </div>
             </div>
-            
-            <div class="info-section">
-                <h3>Статус заявки</h3>
-                <div class="status-info">
-                    <span class="status-badge status-{{ order.status|slugify }}">
-                        {{ order.status|capfirst }}
-                    </span>
-                    <p class="status-description">
-                        {% if order.status == 'новая' %}
-                            Заявка принята и ожидает подтверждения
-                        {% elif order.status == 'подтвержденная' %}
-                            Заявка подтверждена, ожидаем вас в назначенное время
-                        {% elif order.status == 'отмененная' %}
-                            Заявка была отменена
-                        {% elif order.status == 'выполненная' %}
-                            Услуги успешно оказаны
-                        {% endif %}
-                    </p>
-                </div>
-            </div>
         </div>
-        
-        <div class="order-actions">
-            <a href="{% url 'orders_list' %}" class="btn btn-secondary">
-                ← Назад к списку
-            </a>
-            <a href="{% url 'landing' %}" class="btn btn-primary">
-                На главную
-            </a>
-        </div>
-        
-        {% else %}
-        <div class="order-not-found">
-            <h2>Заявка не найдена</h2>
-            <p>Заявка с указанным номером не существует.</p>
-            <a href="{% url 'orders_list' %}" class="btn btn-primary">
-                Вернуться к списку заявок
-            </a>
-        </div>
-        {% endif %}
-    </section>
+    </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function callClient() {
+    if (confirm('Позвонить клиенту {{ order.client_name }}?')) {
+        window.location.href = 'tel:{{ order.phone }}';
+    }
+}
+
+function editOrder() {
+    alert('Функция редактирования будет добавлена в следующих версиях');
+}
+</script>
 {% endblock %}

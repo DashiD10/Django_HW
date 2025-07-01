@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - {{ block.super }}{% endblock %}
+
+{% block content %}
+<section class="hero bg-primary text-white py-5">
+    <div class="container text-center">
+        <h1 class="display-4">Welcome to Steel Beard Barbershop</h1>
+        <p class="lead">Professional grooming services for the modern gentleman</p>
+        <a href="#booking" class="btn btn-light btn-lg">Book Now</a>
+    </div>
+</section>
+
+<section id="about" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">About Us</h2>
+        <p class="text-center">We provide premium barbershop services with experienced masters.</p>
+    </div>
+</section>
+
+<section id="services" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Our Services</h2>
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <i class="bi bi-scissors display-4 text-primary"></i>
+                <h4>Haircuts</h4>
+                <p>Professional haircuts for all styles</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <i class="bi bi-brush display-4 text-primary"></i>
+                <h4>Beard Grooming</h4>
+                <p>Expert beard trimming and styling</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <i class="bi bi-star display-4 text-primary"></i>
+                <h4>Premium Care</h4>
+                <p>Complete grooming packages</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="masters" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Our Masters</h2>
+        <!-- Add masters content -->
+    </div>
+</section>
+
+<section id="booking" class="py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h2>Ready to Book?</h2>
+        <p>Contact us to schedule your appointment</p>
+        <button class="btn btn-light btn-lg">Book Appointment</button>
+    </div>
+</section>
+{% endblock %}
