@@ -2,47 +2,6 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-class Master(models.Model):
-    """
-    Модель мастера барбершопа.
-    
-    Содержит информацию о мастере, его контактных данных,
-    опыте работы и предоставляемых услугах.
-    """
-    name = models.CharField(
-        max_length=150, 
-        verbose_name="Имя"
-    )
-    photo = models.ImageField(
-        upload_to="masters/", 
-        blank=True, 
-        verbose_name="Фотография"
-    )
-    phone = models.CharField(
-        max_length=20, 
-        verbose_name="Телефон"
-    )
-    address = models.CharField(
-        max_length=255, 
-        verbose_name="Адрес"
-    )
-    experience = models.PositiveIntegerField(
-        verbose_name="Стаж работы",
-        help_text="Опыт работы в годах"
-    )
-    is_active = models.BooleanField(
-        default=True, 
-        verbose_name="Активен"
-    )
-
-    class Meta:
-        verbose_name = "Мастер"
-        verbose_name_plural = "Мастера"
-
-    def __str__(self) -> str:
-        return self.name
-
-
 class Service(models.Model):
     """
     Модель услуги барбершопа.
@@ -80,6 +39,52 @@ class Service(models.Model):
     class Meta:
         verbose_name = "Услуга"
         verbose_name_plural = "Услуги"
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Master(models.Model):
+    """
+    Модель мастера барбершопа.
+    
+    Содержит информацию о мастере, его контактных данных,
+    опыте работы и предоставляемых услугах.
+    """
+    name = models.CharField(
+        max_length=150, 
+        verbose_name="Имя"
+    )
+    photo = models.ImageField(
+        upload_to="masters/", 
+        blank=True, 
+        verbose_name="Фотография"
+    )
+    phone = models.CharField(
+        max_length=20, 
+        verbose_name="Телефон"
+    )
+    address = models.CharField(
+        max_length=255, 
+        verbose_name="Адрес"
+    )
+    experience = models.PositiveIntegerField(
+        verbose_name="Стаж работы",
+        help_text="Опыт работы в годах"
+    )
+    services = models.ManyToManyField(
+        Service,
+        related_name="masters",
+        verbose_name="Услуги"
+    )
+    is_active = models.BooleanField(
+        default=True, 
+        verbose_name="Активен"
+    )
+
+    class Meta:
+        verbose_name = "Мастер"
+        verbose_name_plural = "Мастера"
 
     def __str__(self) -> str:
         return self.name
@@ -150,6 +155,14 @@ class Order(models.Model):
     def __str__(self) -> str:
         return f"Заказ {self.client_name} от {self.date_created.strftime('%d.%m.%Y')}"
 
+    def get_total_price(self) -> float:
+        """Возвращает общую стоимость заказа."""
+        return sum(service.price for service in self.services.all())
+    
+    def get_total_duration(self) -> int:
+        """Возвращает общую длительность заказа в минутах."""
+        return sum(service.duration for service in self.services.all())
+
 
 class Review(models.Model):
     """
@@ -206,14 +219,3 @@ class Review(models.Model):
 
     def __str__(self) -> str:
         return f"Отзыв от {self.client_name} для {self.master.name}"
-
-
-# Добавляем связь ManyToMany для мастеров и услуг
-Master.add_to_class(
-    'services',
-    models.ManyToManyField(
-        Service,
-        related_name="masters",
-        verbose_name="Услуги"
-    )
-)
