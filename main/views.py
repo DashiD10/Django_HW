@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.decorators import user_passes_test
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import Http404
 
 # Тестовые данные для заявок
@@ -59,7 +60,7 @@ def landing(request):
             {'name': 'Дмитрий Волков', 'experience': '3 года'},
         ]
     }
-    return render(request, 'landing.html', context)
+    return render(request, 'barbershop/landing.html', context)
 
 def thanks(request):
     """
@@ -70,13 +71,7 @@ def thanks(request):
     }
     return render(request, 'thanks.html', context)
 
-def is_staff_user(user):
-    """
-    Проверка, является ли пользователь сотрудником
-    """
-    return user.is_authenticated and user.is_staff
-
-@user_passes_test(is_staff_user)
+@staff_member_required
 def orders_list(request):
     """
     Список заявок (доступен только для staff пользователей)
@@ -85,9 +80,9 @@ def orders_list(request):
         'page_title': 'Список заявок',
         'orders': ORDERS_DATA,
     }
-    return render(request, 'orders_list.html', context)
+    return render(request, 'barbershop/orders_list.html', context)
 
-@user_passes_test(is_staff_user)
+@staff_member_required
 def order_detail(request, order_id):
     """
     Детальная информация о заявке
@@ -106,4 +101,4 @@ def order_detail(request, order_id):
         'page_title': f'Заявка #{order_id}',
         'order': order,
     }
-    return render(request, 'order_detail.html', context)
+    return render(request, 'barbershop/order_detail.html', context)

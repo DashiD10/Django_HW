@@ -1,42 +1,85 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Home - {{ block.super }}{% endblock %}
+{% block title %}Главная - {{ block.super }}{% endblock %}
 
 {% block content %}
 <section class="hero bg-primary text-white py-5">
     <div class="container text-center">
-        <h1 class="display-4">Welcome to Steel Beard Barbershop</h1>
-        <p class="lead">Professional grooming services for the modern gentleman</p>
-        <a href="#booking" class="btn btn-light btn-lg">Book Now</a>
+        <h1 class="display-4">Добро пожаловать в барбершоп "Стальная Борода"</h1>
+        <p class="lead">Профессиональные услуги по уходу за внешностью для современного мужчины</p>
+        <a href="#booking" class="btn btn-light btn-lg">Записаться сейчас</a>
     </div>
 </section>
 
 <section id="about" class="py-5">
     <div class="container">
-        <h2 class="text-center mb-4">About Us</h2>
-        <p class="text-center">We provide premium barbershop services with experienced masters.</p>
+        <h2 class="text-center mb-4">О нас</h2>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <p class="text-center lead">Мы предоставляем премиальные услуги барбершопа с опытными мастерами. Наша команда профессионалов создаст для вас идеальный образ, используя только качественные инструменты и косметику.</p>
+                <p class="text-center">В нашем барбершопе царит атмосфера мужского братства, где каждый клиент получает индивидуальный подход и высочайший уровень сервиса.</p>
+            </div>
+        </div>
     </div>
 </section>
 
 <section id="services" class="py-5 bg-light">
     <div class="container">
-        <h2 class="text-center mb-4">Our Services</h2>
+        <h2 class="text-center mb-5">Наши услуги</h2>
         <div class="row">
-            <div class="col-md-4 text-center">
-                <i class="bi bi-scissors display-4 text-primary"></i>
-                <h4>Haircuts</h4>
-                <p>Professional haircuts for all styles</p>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="bi bi-scissors display-4 text-primary mb-3"></i>
+                        <h4 class="card-title">Мужские стрижки</h4>
+                        <p class="card-text">Профессиональные стрижки для всех стилей - от классических до современных трендов</p>
+                        <h5 class="text-primary">от 1500 ₽</h5>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 text-center">
-                <i class="bi bi-brush display-4 text-primary"></i>
-                <h4>Beard Grooming</h4>
-                <p>Expert beard trimming and styling</p>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="bi bi-brush display-4 text-primary mb-3"></i>
+                        <h4 class="card-title">Уход за бородой</h4>
+                        <p class="card-text">Экспертная стрижка и моделирование бороды, придание формы и стиля</p>
+                        <h5 class="text-primary">от 800 ₽</h5>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-4 text-center">
-                <i class="bi bi-star display-4 text-primary"></i>
-                <h4>Premium Care</h4>
-                <p>Complete grooming packages</p>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="bi bi-star display-4 text-primary mb-3"></i>
+                        <h4 class="card-title">Премиум уход</h4>
+                        <p class="card-text">Полный комплекс услуг: стрижка, борода, укладка и уход за кожей лица</p>
+                        <h5 class="text-primary">от 2500 ₽</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="bi bi-droplet display-4 text-primary mb-3"></i>
+                        <h4 class="card-title">Укладка волос</h4>
+                        <p class="card-text">Стильная укладка с использованием профессиональных средств</p>
+                        <h5 class="text-primary">500 ₽</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 text-center">
+                    <div class="card-body">
+                        <i class="bi bi-heart display-4 text-primary mb-3"></i>
+                        <h4 class="card-title">Уход за лицом</h4>
+                        <p class="card-text">Очищение, увлажнение и тонизирование кожи лица</p>
+                        <h5 class="text-primary">1200 ₽</h5>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -44,16 +87,115 @@
 
 <section id="masters" class="py-5">
     <div class="container">
-        <h2 class="text-center mb-4">Our Masters</h2>
-        <!-- Add masters content -->
+        <h2 class="text-center mb-5">Наши мастера</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-person-circle display-4 text-primary mb-3"></i>
+                        <h4 class="card-title">Алексей Смирнов</h4>
+                        <p class="card-text">Опыт работы: 5 лет</p>
+                        <p class="card-text">Специализация: классические и современные мужские стрижки, моделирование бороды</p>
+                        <div class="mb-2">
+                            <span class="badge bg-primary">Стрижки</span>
+                            <span class="badge bg-primary">Борода</span>
+                            <span class="badge bg-primary">Укладка</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <i class="bi bi-person-circle display-4 text-primary mb-3"></i>
+                        <h4 class="card-title">Дмитрий Волков</h4>
+                        <p class="card-text">Опыт работы: 3 года</p>
+                        <p class="card-text">Специализация: креативные стрижки, уход за лицом, премиум услуги</p>
+                        <div class="mb-2">
+                            <span class="badge bg-primary">Креативные стрижки</span>
+                            <span class="badge bg-primary">Уход за лицом</span>
+                            <span class="badge bg-primary">Премиум</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
 <section id="booking" class="py-5 bg-primary text-white">
     <div class="container text-center">
-        <h2>Ready to Book?</h2>
-        <p>Contact us to schedule your appointment</p>
-        <button class="btn btn-light btn-lg">Book Appointment</button>
+        <h2 class="mb-4">Готовы записаться?</h2>
+        <p class="lead mb-4">Свяжитесь с нами, чтобы записаться на прием к нашим мастерам</p>
+        
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="bi bi-telephone-fill me-2"></i>
+                            <span>+7 (999) 123-45-67</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="d-flex align-items-center justify-content-center">
+                            <i class="bi bi-geo-alt-fill me-2"></i>
+                            <span>г. Москва, ул. Примерная, 123</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card bg-light text-dark">
+                    <div class="card-body">
+                        <h5 class="card-title">Часы работы</h5>
+                        <p class="card-text mb-1">Понедельник - Пятница: 9:00 - 21:00</p>
+                        <p class="card-text mb-1">Суббота: 10:00 - 20:00</p>
+                        <p class="card-text">Воскресенье: 11:00 - 19:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4">
+            <button class="btn btn-light btn-lg me-3">
+                <i class="bi bi-telephone-fill me-2"></i>Позвонить
+            </button>
+            <button class="btn btn-outline-light btn-lg">
+                <i class="bi bi-calendar-check me-2"></i>Записаться онлайн
+            </button>
+        </div>
+    </div>
+</section>
+
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Почему выбирают нас?</h2>
+        <div class="row">
+            <div class="col-md-3 mb-4 text-center">
+                <i class="bi bi-award display-4 text-primary mb-3"></i>
+                <h5>Опытные мастера</h5>
+                <p>Только сертифицированные специалисты с многолетним опытом</p>
+            </div>
+            <div class="col-md-3 mb-4 text-center">
+                <i class="bi bi-gem display-4 text-primary mb-3"></i>
+                <h5>Качественные материалы</h5>
+                <p>Используем только премиальную косметику и профессиональные инструменты</p>
+            </div>
+            <div class="col-md-3 mb-4 text-center">
+                <i class="bi bi-clock display-4 text-primary mb-3"></i>
+                <h5>Удобное время</h5>
+                <p>Работаем 7 дней в неделю, запись по телефону и онлайн</p>
+            </div>
+            <div class="col-md-3 mb-4 text-center">
+                <i class="bi bi-shield-check display-4 text-primary mb-3"></i>
+                <h5>Гарантия качества</h5>
+                <p>Гарантируем результат или переделаем бесплатно</p>
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}

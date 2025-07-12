@@ -1,3 +1,5 @@
+# правильный
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,12 +48,11 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'core.context_processors.menu_context',  # Исправлено с barbershop на core
+                'barbershop.context_processors.menu_context',
             ],
         },
     },
 ]
-
 WSGI_APPLICATION = 'Django_HW.wsgi.application'
 
 # Database
