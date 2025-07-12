@@ -3,100 +3,52 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Service(models.Model):
-    """
-    Модель услуги барбершопа.
-    
-    Содержит информацию об услуге, её стоимости,
-    длительности и популярности.
-    """
-    name = models.CharField(
-        max_length=200, 
-        verbose_name="Название"
-    )
-    description = models.TextField(
-        blank=True, 
-        verbose_name="Описание"
-    )
-    price = models.DecimalField(
-        max_digits=10, 
-        decimal_places=2, 
-        verbose_name="Цена"
-    )
+    """Модель услуги барбершопа"""
+    name = models.CharField(max_length=200, verbose_name="Название")
+    description = models.TextField(blank=True, verbose_name="Описание")
+    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Цена")
     duration = models.PositiveIntegerField(
-        verbose_name="Длительность",
+        verbose_name="Длительность", 
         help_text="Время выполнения в минутах"
     )
-    is_popular = models.BooleanField(
-        default=False, 
-        verbose_name="Популярная услуга"
-    )
-    image = models.ImageField(
-        upload_to="services/", 
-        blank=True, 
-        verbose_name="Изображение"
-    )
+    is_popular = models.BooleanField(default=False, verbose_name="Популярная услуга")
+    image = models.ImageField(upload_to="services/", blank=True, verbose_name="Изображение")
 
     class Meta:
         verbose_name = "Услуга"
         verbose_name_plural = "Услуги"
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.name
 
 
 class Master(models.Model):
-    """
-    Модель мастера барбершопа.
-    
-    Содержит информацию о мастере, его контактных данных,
-    опыте работы и предоставляемых услугах.
-    """
-    name = models.CharField(
-        max_length=150, 
-        verbose_name="Имя"
-    )
-    photo = models.ImageField(
-        upload_to="masters/", 
-        blank=True, 
-        verbose_name="Фотография"
-    )
-    phone = models.CharField(
-        max_length=20, 
-        verbose_name="Телефон"
-    )
-    address = models.CharField(
-        max_length=255, 
-        verbose_name="Адрес"
-    )
+    """Модель мастера барбершопа"""
+    name = models.CharField(max_length=150, verbose_name="Имя")
+    photo = models.ImageField(upload_to="masters/", blank=True, verbose_name="Фотография")
+    phone = models.CharField(max_length=20, verbose_name="Телефон")
+    address = models.CharField(max_length=255, verbose_name="Адрес")
     experience = models.PositiveIntegerField(
-        verbose_name="Стаж работы",
+        verbose_name="Стаж работы", 
         help_text="Опыт работы в годах"
     )
     services = models.ManyToManyField(
-        Service,
-        related_name="masters",
+        Service, 
+        related_name="masters", 
         verbose_name="Услуги"
     )
-    is_active = models.BooleanField(
-        default=True, 
-        verbose_name="Активен"
-    )
+    is_active = models.BooleanField(default=True, verbose_name="Активен")
 
     class Meta:
         verbose_name = "Мастер"
         verbose_name_plural = "Мастера"
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.name
 
 
 class Order(models.Model):
-    """
-    Модель заказа клиента.
-    
-    Содержит информацию о заказе, клиенте, выбранных услугах,
-    назначенном мастере и статусе выполнения.
-    """
+    """Модель заказа"""
     STATUS_CHOICES = [
         ('not_approved', 'Не подтвержден'),
         ('approved', 'Подтвержден'),
@@ -105,72 +57,42 @@ class Order(models.Model):
         ('cancelled', 'Отменен'),
     ]
 
-    client_name = models.CharField(
-        max_length=100, 
-        verbose_name="Имя клиента"
-    )
-    phone = models.CharField(
-        max_length=20, 
-        verbose_name="Телефон"
-    )
-    comment = models.TextField(
-        blank=True, 
-        verbose_name="Комментарий"
-    )
+    client_name = models.CharField(max_length=100, verbose_name="Имя клиента")
+    phone = models.CharField(max_length=20, verbose_name="Телефон")
+    comment = models.TextField(blank=True, verbose_name="Комментарий")
     status = models.CharField(
-        max_length=50,
-        choices=STATUS_CHOICES,
-        default="not_approved",
+        max_length=50, 
+        choices=STATUS_CHOICES, 
+        default="not_approved", 
         verbose_name="Статус"
     )
-    date_created = models.DateTimeField(
-        auto_now_add=True, 
-        verbose_name="Дата создания"
-    )
-    date_updated = models.DateTimeField(
-        auto_now=True, 
-        verbose_name="Дата обновления"
-    )
+    date_created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    date_updated = models.DateTimeField(auto_now=True, verbose_name="Дата обновления")
     master = models.ForeignKey(
-        Master,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
+        Master, 
+        on_delete=models.SET_NULL, 
+        null=True, 
+        blank=True, 
         verbose_name="Мастер"
     )
     services = models.ManyToManyField(
-        Service,
-        related_name="orders",
+        Service, 
+        related_name="orders", 
         verbose_name="Услуги"
     )
-    appointment_date = models.DateTimeField(
-        verbose_name="Дата и время записи"
-    )
+    appointment_date = models.DateTimeField(verbose_name="Дата и время записи")
 
     class Meta:
         verbose_name = "Заказ"
         verbose_name_plural = "Заказы"
         ordering = ['-date_created']
 
-    def __str__(self) -> str:
+    def __str__(self):
         return f"Заказ {self.client_name} от {self.date_created.strftime('%d.%m.%Y')}"
-
-    def get_total_price(self) -> float:
-        """Возвращает общую стоимость заказа."""
-        return sum(service.price for service in self.services.all())
-    
-    def get_total_duration(self) -> int:
-        """Возвращает общую длительность заказа в минутах."""
-        return sum(service.duration for service in self.services.all())
 
 
 class Review(models.Model):
-    """
-    Модель отзыва клиента.
-    
-    Содержит отзыв клиента о работе мастера,
-    оценку и дополнительную информацию.
-    """
+    """Модель отзыва"""
     RATING_CHOICES = [
         (1, '1 звезда'),
         (2, '2 звезды'),
@@ -179,17 +101,11 @@ class Review(models.Model):
         (5, '5 звезд'),
     ]
 
-    text = models.TextField(
-        verbose_name="Текст отзыва"
-    )
-    client_name = models.CharField(
-        max_length=100, 
-        blank=True, 
-        verbose_name="Имя клиента"
-    )
+    text = models.TextField(verbose_name="Текст отзыва")
+    client_name = models.CharField(max_length=100, blank=True, verbose_name="Имя клиента")
     master = models.ForeignKey(
-        Master,
-        on_delete=models.CASCADE,
+        Master, 
+        on_delete=models.CASCADE, 
         verbose_name="Мастер"
     )
     photo = models.ImageField(
@@ -198,24 +114,18 @@ class Review(models.Model):
         null=True, 
         verbose_name="Фотография"
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True, 
-        verbose_name="Дата создания"
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     rating = models.PositiveSmallIntegerField(
         choices=RATING_CHOICES,
         validators=[MinValueValidator(1), MaxValueValidator(5)],
         verbose_name="Оценка"
     )
-    is_published = models.BooleanField(
-        default=True, 
-        verbose_name="Опубликован"
-    )
+    is_published = models.BooleanField(default=True, verbose_name="Опубликован")
 
     class Meta:
         verbose_name = "Отзыв"
         verbose_name_plural = "Отзывы"
         ordering = ['-created_at']
 
-    def __str__(self) -> str:
+    def __str__(self):
         return f"Отзыв от {self.client_name} для {self.master.name}"
