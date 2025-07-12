@@ -16,7 +16,6 @@ class MasterAdmin(admin.ModelAdmin):
     list_filter = ['is_active', 'experience']
     search_fields = ['name', 'phone']
     filter_horizontal = ['services']
-    list_editable = ['is_active']
 
 
 @admin.register(Order)
@@ -35,5 +34,3 @@ class ReviewAdmin(admin.ModelAdmin):
     list_filter = ['rating', 'is_published', 'master']
     search_fields = ['client_name', 'text']
     list_editable = ['is_published']
-    date_hierarchy = 'created_at'
-
